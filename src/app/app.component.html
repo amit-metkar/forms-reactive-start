@@ -1,37 +1,43 @@
 <div class="container">
-  <div class="row">
-    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form [formGroup]="signedupForm" (ngSubmit)="onSubmit()">
-        <div formGroupName="userData">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" class="form-control" formControlName="username">
-            <span *ngIf="signedupForm.get('userData.username').invalid && signedupForm.get('userData.username').touched" class="htlp-block">Please enter a valid user name.</span>
-          </div>
-          <div class="form-group">
-            <label for="email">email</label>
-            <input type="text" id="email" class="form-control" formControlName="email">
-            <span *ngIf="signedupForm.get('userData.email').invalid && signedupForm.get('userData.email').touched" class="htlp-block">Please enter a valid email.</span>
-          </div>
-        </div>
-        <div class="radio" *ngFor="let gender of genders">
-          <label>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+            <form [formGroup]="signedupForm" (ngSubmit)="onSubmit()">
+                <div formGroupName="userData">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control" formControlName="username">
+                        <span *ngIf="signedupForm.get('userData.username').invalid && signedupForm.get('userData.username').touched" class="htlp-block">
+                          <span *ngIf="signedupForm.get('userData.username').errors['nameIsForbidden']">
+                            This name is invalid.</span>
+                        <span *ngIf="signedupForm.get('userData.username').errors['required']">
+                            Please enter user name.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">email</label>
+                        <input type="text" id="email" class="form-control" formControlName="email">
+                        <span *ngIf="signedupForm.get('userData.email').invalid && signedupForm.get('userData.email').touched" class="htlp-block">
+                          Please enter a valid email.</span>
+                    </div>
+                </div>
+                <div class="radio" *ngFor="let gender of genders">
+                    <label>
             <input
               type="radio"
-              [value]="gender" 
+              [value]="gender"
               formControlName="gender">{{ gender }}
           </label>
+                </div>
+                <div formArrayName="hobbies">
+                    <h4>Your Hobbies</h4>
+                    <button class="btn btn-default" type="button" (click)="onAddHobby()">Add Hobby</button>
+                    <div class="form-group" *ngFor="let hobbyControl of signedupForm.get('hobbies').controls; let i = index">
+                        <input type="text" class="form-control" [formControlName]="i">
+                    </div>
+                </div>
+                <span *ngIf="signedupForm.invalid && signedupForm.touched">Please enter valid data.</span>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
         </div>
-        <div formArrayName="hobbies">
-          <h4>Your Hobbies</h4>
-          <button class="btn btn-default" type="button" (click)="onAddHobby()">Add Hobby</button>
-          <div class="form-group" *ngFor="let hobbyControl of signedupForm.get('hobbies').controls; let i = index">
-            <input type="text" class="form-control" [formControlName]="i">
-          </div>
-        </div>
-        <span *ngIf="signedupForm.invalid && signedupForm.touched">Please enter valid data.</span>
-        <button class="btn btn-primary" type="submit">Submit</button>
-      </form>
     </div>
-  </div>
 </div>

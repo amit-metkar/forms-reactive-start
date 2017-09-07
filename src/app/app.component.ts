@@ -17,12 +17,12 @@ import {
 export class AppComponent implements OnInit {
   genders = ["male", "female"];
   signedupForm: FormGroup;
-  forbiddenUserNames: ['Vaibhav', 'Chetan'];
+  forbiddenUserNames = ['Vaibhav', 'Chetan'];
 
   ngOnInit(): void {
     this.signedupForm = new FormGroup({
       'userData': new FormGroup({
-        'username': new FormControl(null, Validators.required),
+        'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
         'email': new FormControl(null, [Validators.required, Validators.email])
       }),
       'gender': new FormControl('male'),
@@ -42,9 +42,9 @@ export class AppComponent implements OnInit {
   forbiddenNames(control: FormControl): {
     [s: string]: boolean
   } {
-    if (this.forbiddenUserNames.indexOf(control.value)) {
+    if (this.forbiddenUserNames.indexOf(control.value) !== -1) {
       return {
-        'nameISForbidden': true
+        'nameIsForbidden': true
       };
     }
     return null;
