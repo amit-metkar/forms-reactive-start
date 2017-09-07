@@ -1,22 +1,18 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form [formGroup]="signedupForm">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            class="form-control"
-            formControlName="username">
-        </div>
-        <div class="form-group">
-          <label for="email">email</label>
-          <input
-            type="text"
-            id="email"
-            class="form-control"
-            formControlName="email">
+      <form [formGroup]="signedupForm" (ngSubmit)="onSubmit()">
+        <div formGroupName="userData">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="form-control" formControlName="username">
+            <span *ngIf="signedupForm.get('userData.username').invalid && signedupForm.get('userData.username').touched" class="htlp-block">Please enter a valid user name.</span>
+          </div>
+          <div class="form-group">
+            <label for="email">email</label>
+            <input type="text" id="email" class="form-control" formControlName="email">
+            <span *ngIf="signedupForm.get('userData.email').invalid && signedupForm.get('userData.email').touched" class="htlp-block">Please enter a valid email.</span>
+          </div>
         </div>
         <div class="radio" *ngFor="let gender of genders">
           <label>
